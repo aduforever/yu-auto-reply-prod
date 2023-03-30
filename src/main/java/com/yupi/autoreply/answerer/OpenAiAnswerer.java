@@ -1,12 +1,17 @@
 package com.yupi.autoreply.answerer;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.json.JSONUtil;
 import com.yupi.autoreply.api.openai.OpenAiApi;
 import com.yupi.autoreply.api.openai.model.CreateCompletionRequest;
 import com.yupi.autoreply.api.openai.model.CreateCompletionResponse;
+import com.yupi.autoreply.common.ErrorCode;
 import com.yupi.autoreply.config.OpenAiConfig;
 import com.yupi.autoreply.config.ZsxqConfig;
+import com.yupi.autoreply.exception.BusinessException;
 import com.yupi.autoreply.utils.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +27,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class OpenAiAnswerer implements Answerer {
-    @Autowired
-    private  OpenAiApi openAiApi;
 
     private final OpenAiConfig openAiConfig = SpringContextUtils.getBean(OpenAiConfig.class);
 
@@ -34,23 +37,26 @@ public class OpenAiAnswerer implements Answerer {
         request.setModel(openAiConfig.getModel());
         request.setTemperature(0);
         request.setMax_tokens(1024);
-        System.out.println(openAiApi);
-        CreateCompletionResponse response = openAiApi.createCompletion(request, openAiConfig.getApiKey());
-        System.out.println(response);
+        CreateCompletionResponse response = createCompletion(request, openAiConfig.getApiKey());
+//        CreateCompletionResponse response = openAiApi.createCompletion(request, openAiConfig.getApiKey());
         List<CreateCompletionResponse.ChoicesItem> choicesItemList = response.getChoices();
-
-        System.out.println(openAiConfig.getApiKey());
-        System.out.println(openAiConfig.getModel());
-        System.out.println(choicesItemList.size());
-
-        for (CreateCompletionResponse.ChoicesItem a:choicesItemList
-             ) {
-            log.info(a.getText());
-        }
         String answer = choicesItemList.stream()
                 .map(CreateCompletionResponse.ChoicesItem::getText)
                 .collect(Collectors.joining());
         log.info("OpenAiAnswerer 回答成功 \n 答案：{}", answer);
         return answer;
+    }
+    public CreateCompletionResponse createCompletion(CreateCompletionRequest request, String openAiApiKey) {
+        if (StringUtils.isBlank(openAiApiKey)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "未传 openAiApiKey");
+        }
+        String url = "https://api.openai.com/v1/completions";
+        String json = JSONUtil.toJsonStr(request);
+        String result = HttpRequest.post(url)
+                .header("Authorization", "Bearer " + openAiApiKey)
+                .body(json)
+                .execute()
+                .body();
+        return JSONUtil.toBean(result, CreateCompletionResponse.class);
     }
 }
