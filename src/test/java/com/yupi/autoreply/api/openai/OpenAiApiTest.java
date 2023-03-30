@@ -28,7 +28,7 @@ class OpenAiApiTest {
     void createCompletion() {
         CreateCompletionRequest request = new CreateCompletionRequest();
         request.setModel("text-davinci-003");
-        request.setPrompt("我的提问");
+        request.setPrompt("怎么成为一个优秀的人？");
         CreateCompletionResponse response = openAiApi.createCompletion(request, OPENAI_API_KEY);
         Assertions.assertNotNull(response);
     }
