@@ -57,6 +57,7 @@ public class OpenAiAnswerer implements Answerer {
                 .body(json)
                 .execute()
                 .body();
+        log.info("OpenAiAnswerer 接口请求成功 \n 返回值：{}", result);
         return JSONUtil.toBean(result, CreateCompletionResponse.class);
     }
 }
