@@ -33,11 +33,13 @@ public class OpenAiAnswerer implements Answerer {
         request.setTemperature(0);
         request.setMax_tokens(1024);
         CreateCompletionResponse response = openAiApi.createCompletion(request, openAiConfig.getApiKey());
+        System.out.println(response);
         List<CreateCompletionResponse.ChoicesItem> choicesItemList = response.getChoices();
 
-        System.out.println(choicesItemList.size());
         System.out.println(openAiConfig.getApiKey());
         System.out.println(openAiConfig.getModel());
+        System.out.println(choicesItemList.size());
+
         for (CreateCompletionResponse.ChoicesItem a:choicesItemList
              ) {
             log.info(a.getText());
