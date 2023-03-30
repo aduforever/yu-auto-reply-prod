@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @Slf4j
-@Service
 public class OpenAiAnswerer implements Answerer {
     @Autowired
     private  OpenAiApi openAiApi;
@@ -35,6 +34,7 @@ public class OpenAiAnswerer implements Answerer {
         request.setModel(openAiConfig.getModel());
         request.setTemperature(0);
         request.setMax_tokens(1024);
+        System.out.println(openAiApi);
         CreateCompletionResponse response = openAiApi.createCompletion(request, openAiConfig.getApiKey());
         System.out.println(response);
         List<CreateCompletionResponse.ChoicesItem> choicesItemList = response.getChoices();
