@@ -14,12 +14,12 @@ server:
 # https://platform.openai.com/docs/api-reference
 openai:
   model: ${OPENAI_MODEL:text-davinci-003}
-  apiKey: ${OPENAI_API_KEY:你的apiKey}
+  apiKey: ${OPENAI_API_KEY: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}
 # 知识星球配置
 # https://zsxq.com/
 zsxq:
-  cookie: ${ZSXQ_COOKIE:你的星球cookie}
-  groupId: ${ZSXQ_GROUP_ID:你的星球id}
+  cookie: ${ZSXQ_COOKIE:zsxq_access_token=151BB537-B9E8-BA01-A416-3211CDFF240C_4B99FF36CF6622CF; zsxqsessionid=47a741e1aac641b3b95e0a00fcf7a220; abtest_env=product; sensorsdata2015jssdkcross={"distinct_id":"18731dafb3d46e-03f7c79270e08f-26031851-1843200-18731dafb3ebd0","first_id":"","props":{},"$device_id":"18731dafb3d46e-03f7c79270e08f-26031851-1843200-18731dafb3ebd0"}; sajssdk_2015_cross_new_user=1}
+  groupId: ${ZSXQ_GROUP_ID:51112155811244}
   # 是否提醒提问者
   silenced: ${ZSXQ_SILENCED:true}
 # 任务配置
