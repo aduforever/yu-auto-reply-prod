@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class MainController {
 
     @ApiOperation(value="读取写操作记录接口", notes="读取写操作记录接口")
-    @PostMapping(value = "/answer")
+    @PostMapping(value = "answer")
     public String answer(String question,HttpServletRequest req) throws Exception {
         Answerer answerer = AnswererFactory.createAnswerer("openai");
         log.info("收到新提问 \n 问题：{}", question);
