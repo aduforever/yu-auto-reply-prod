@@ -7,6 +7,8 @@ import com.yupi.autoreply.config.OpenAiConfig;
 import com.yupi.autoreply.config.ZsxqConfig;
 import com.yupi.autoreply.utils.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,9 +21,10 @@ import java.util.stream.Collectors;
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @Slf4j
+@Service
 public class OpenAiAnswerer implements Answerer {
-
-    private final OpenAiApi openAiApi = SpringContextUtils.getBean(OpenAiApi.class);
+    @Autowired
+    private  OpenAiApi openAiApi;
 
     private final OpenAiConfig openAiConfig = SpringContextUtils.getBean(OpenAiConfig.class);
 
