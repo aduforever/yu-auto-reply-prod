@@ -34,6 +34,10 @@ public class OpenAiAnswerer implements Answerer {
         request.setMax_tokens(1024);
         CreateCompletionResponse response = openAiApi.createCompletion(request, openAiConfig.getApiKey());
         List<CreateCompletionResponse.ChoicesItem> choicesItemList = response.getChoices();
+
+        System.out.println(choicesItemList.size());
+        System.out.println(openAiConfig.getApiKey());
+        System.out.println(openAiConfig.getModel());
         for (CreateCompletionResponse.ChoicesItem a:choicesItemList
              ) {
             log.info(a.getText());
